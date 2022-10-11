@@ -6,21 +6,21 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class MyUserManager(BaseUserManager):
-    def create_user(self, phone, password=None):
-        if not phone:
+    def create_user(self, username, password=None):
+        if not username:
             raise ValueError("Users must have an email address")
 
         user = self.model(
-            phone=phone
+            username=username
         )
         user.set_password(password)
         user.is_active = True
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, phone, password=None):
+    def create_superuser(self, username, password=None):
         user = self.create_user(
-            phone=phone
+            username=username
         )
         user.set_password(password)
         user.is_admin = True
