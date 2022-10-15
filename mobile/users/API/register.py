@@ -6,7 +6,7 @@ from mobile.responses import response_200, response_400, response_500
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
 
-from users.models import CustomUser, OTPRegister
+from users.models import CustomUser, Followers, OTPRegister
 from users.utils import generate_random_num, send_email
 
 
@@ -58,6 +58,10 @@ def register_email(request):
     )
     send_email(user_obj.email, otp,
                "Email Verification of Finrend")
+    Followers.objects.create(
+        follower_user=user_obj,
+        followed_user=user_obj
+    )
     return response_200(None)
 
 
@@ -107,4 +111,8 @@ def register_phone(request):
         description=description_obj
     )
     # sms gönder
+    Followers.objects.create(
+        follower_user=user_obj,
+        followed_user=user_obj
+    )
     return response_200(None)

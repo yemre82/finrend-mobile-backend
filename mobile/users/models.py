@@ -1,4 +1,3 @@
-import email
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
@@ -39,6 +38,7 @@ class CustomUser(AbstractBaseUser):
     lastname = models.CharField(blank=False, max_length=30)
     username = models.CharField(blank=True, max_length=20, unique=True)
     birthday = models.DateField(blank=True, null=True)
+    followers_count=models.IntegerField(blank=False,default=0)
     created_at = models.DateTimeField(
         verbose_name="created at", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="update at", auto_now=True)
@@ -77,6 +77,16 @@ class OTPForgotPassword(models.Model):
     description = models.CharField(blank=False, max_length=100)
     otp = models.CharField(blank=False, max_length=100)
     is_verified = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.user)
+
+
+class Followers(models.Model):
+    follower_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    followed_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
