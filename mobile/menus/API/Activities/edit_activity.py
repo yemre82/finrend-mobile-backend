@@ -20,7 +20,7 @@ def edit_activity(request):
         return response_400("There is no such post")
     if activity_obj.user != request.user:
         return response_400("The post is not belongs to you")
-    if type(image)!=str:
+    if type(image) != str:
         activity_obj.image = image
     activity_obj.content = content
     activity_obj.locked_comments = locked_comments

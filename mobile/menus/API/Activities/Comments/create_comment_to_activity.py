@@ -15,7 +15,7 @@ def create_comment_to_activity(request):
         activity_obj = Activities.objects.get(id=activity_id)
     except ObjectDoesNotExist as e:
         return response_400("There is no such post")
-    if activity_obj.locked_comments==True:
+    if activity_obj.locked_comments == True:
         return response_400("This post is locked comments")
     content = request.data.get("content")
     image = request.data.get("image")

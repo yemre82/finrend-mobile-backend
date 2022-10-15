@@ -38,7 +38,7 @@ class CustomUser(AbstractBaseUser):
     lastname = models.CharField(blank=False, max_length=30)
     username = models.CharField(blank=True, max_length=20, unique=True)
     birthday = models.DateField(blank=True, null=True)
-    followers_count=models.IntegerField(blank=False,default=0)
+    followers_count = models.IntegerField(blank=False, default=0)
     created_at = models.DateTimeField(
         verbose_name="created at", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="update at", auto_now=True)
@@ -85,8 +85,8 @@ class OTPForgotPassword(models.Model):
 
 
 class Followers(models.Model):
-    follower_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
-    followed_user=models.ForeignKey(CustomUser,on_delete=models.CASCADE)
+    follower_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    followed_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

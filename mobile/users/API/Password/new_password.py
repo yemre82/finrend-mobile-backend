@@ -12,9 +12,9 @@ from users.models import CustomUser
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def new_password_email(request):
-    email=request.data.get("email")
+    email = request.data.get("email")
     try:
-        user_obj=CustomUser.objects.get(email=email)
+        user_obj = CustomUser.objects.get(email=email)
     except ObjectDoesNotExist as e:
         return response_400("There is no such Email")
     password = request.data.get("password")
@@ -28,9 +28,9 @@ def new_password_email(request):
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def new_password_phone(request):
-    phone=request.data.get("phone")
+    phone = request.data.get("phone")
     try:
-        user_obj=CustomUser.objects.get(phone=phone)
+        user_obj = CustomUser.objects.get(phone=phone)
     except ObjectDoesNotExist as e:
         return response_400("There is no such Phone")
     password = request.data.get("password")

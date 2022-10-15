@@ -10,12 +10,12 @@ from django.core.exceptions import ObjectDoesNotExist
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])
 def delete_comment(request):
-    comment_id=request.data.get("comment_id")
+    comment_id = request.data.get("comment_id")
     try:
-        comment_obj=ActivitiesComment.objects.get(id=comment_id)
+        comment_obj = ActivitiesComment.objects.get(id=comment_id)
     except ObjectDoesNotExist as e:
         return response_400("there is no such comment")
-    if comment_obj.user!=request.user:
+    if comment_obj.user != request.user:
         return response_400("This comment is not belongs to you")
     comment_obj.delete()
     return response_200(None)

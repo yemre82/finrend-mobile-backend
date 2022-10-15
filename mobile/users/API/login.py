@@ -18,7 +18,7 @@ def login(request):
     username = request.data.get("username")
     password = request.data.get("password")
     try:
-        user_obj=CustomUser.objects.get(username=username)
+        user_obj = CustomUser.objects.get(username=username)
     except ObjectDoesNotExist as e:
         return response_400("There is no such User")
     if not user_obj.check_password(password):

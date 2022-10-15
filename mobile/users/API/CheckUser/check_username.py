@@ -5,10 +5,11 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from users.models import CustomUser
 
+
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def check_username(request):
-    username=request.data.get("username")
+    username = request.data.get("username")
     try:
         CustomUser.objects.get(username=username)
     except ObjectDoesNotExist as e:

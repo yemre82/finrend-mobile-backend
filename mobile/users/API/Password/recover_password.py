@@ -11,34 +11,34 @@ from users.models import CustomUser, OTPForgotPassword
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def recover_password_email(request):
-    email=request.data.get("email")
+    email = request.data.get("email")
     try:
-        user_obj=CustomUser.objects.get(email=email)
+        user_obj = CustomUser.objects.get(email=email)
     except ObjectDoesNotExist as e:
         return response_400("There is no such Email")
-    otp=request.data.get("otp")
+    otp = request.data.get("otp")
     try:
-        otp_forgot_obj=OTPForgotPassword.objects.get(user=user_obj,otp=otp)
+        otp_forgot_obj = OTPForgotPassword.objects.get(user=user_obj, otp=otp)
     except ObjectDoesNotExist as e:
         return response_400("There is no such OTP")
-    otp_forgot_obj.is_verified=True
+    otp_forgot_obj.is_verified = True
     otp_forgot_obj.save()
     return response_200(None)
-    
+
 
 @api_view(['POST'])
 @permission_classes([AllowAny])
 def recover_password_phone(request):
-    phone=request.data.get("phone")
+    phone = request.data.get("phone")
     try:
-        user_obj=CustomUser.objects.get(phone=phone)
+        user_obj = CustomUser.objects.get(phone=phone)
     except ObjectDoesNotExist as e:
         return response_400("There is no such Phone")
-    otp=request.data.get("otp")
+    otp = request.data.get("otp")
     try:
-        otp_forgot_obj=OTPForgotPassword.objects.get(user=user_obj,otp=otp)
+        otp_forgot_obj = OTPForgotPassword.objects.get(user=user_obj, otp=otp)
     except ObjectDoesNotExist as e:
         return response_400("There is no such OTP")
-    otp_forgot_obj.is_verified=True
+    otp_forgot_obj.is_verified = True
     otp_forgot_obj.save()
     return response_200(None)

@@ -30,12 +30,12 @@ def get_activity(request):
         SavedActivities.objects.get(activity=activity_obj, user=request.user)
         is_saved = True
     except ObjectDoesNotExist as e:
-        is_saved=False
+        is_saved = False
     return_obj = {
         "activity_id": activity_obj.id,
         "is_mine": is_mine,
         "is_liked": is_liked,
-        "is_saved":is_saved,
+        "is_saved": is_saved,
         "username": activity_obj.user.username,
         "followers": activity_obj.user.followers_count,
         "image": "/media/"+str(activity_obj.image),

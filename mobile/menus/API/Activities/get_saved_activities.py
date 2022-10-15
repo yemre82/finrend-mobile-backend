@@ -10,8 +10,8 @@ from django.core.exceptions import ObjectDoesNotExist
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_saved_activities(request):
-    saved_activities_list=[]
-    saved_activities_obj=SavedActivities.objects.filter(user=request.user)
+    saved_activities_list = []
+    saved_activities_obj = SavedActivities.objects.filter(user=request.user)
     for i in saved_activities_obj:
         is_mine = False
         if i.activity.user == request.user:
@@ -28,12 +28,12 @@ def get_saved_activities(request):
             SavedActivities.objects.get(activity=i.activity, user=request.user)
             is_saved = True
         except ObjectDoesNotExist as e:
-            is_saved=False
-        return_obj={
+            is_saved = False
+        return_obj = {
             "activity_id": i.activity.id,
             "is_mine": is_mine,
             "is_liked": is_liked,
-            "is_saved":is_saved,
+            "is_saved": is_saved,
             "username": i.activity.user.username,
             "followers": i.activity.user.followers_count,
             "image": "/media/"+str(i.activity.image),

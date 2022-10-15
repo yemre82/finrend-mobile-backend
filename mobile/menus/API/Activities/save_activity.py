@@ -15,13 +15,13 @@ def save_activity(request, activity_id):
     except ObjectDoesNotExist as e:
         return response_400("There is no such post")
     try:
-        saved_obj=SavedActivities.objects.get(
+        saved_obj = SavedActivities.objects.get(
             activity=activity_obj,
             user=request.user
         )
         return response_400("The post is already saved")
     except ObjectDoesNotExist as e:
-        if activity_obj.user==request.user:
+        if activity_obj.user == request.user:
             return response_400("You can't save this post because it belongs to you")
         SavedActivities.objects.create(
             activity=activity_obj,

@@ -15,7 +15,7 @@ def unblock_activity(request, activity_id):
     except ObjectDoesNotExist as e:
         return response_400("There is no such post")
     try:
-        blocked_obj=BlockedActivities.objects.get(
+        blocked_obj = BlockedActivities.objects.get(
             activity=activity_obj,
             user=request.user
         )
