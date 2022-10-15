@@ -10,7 +10,7 @@ from users.models import Followers
 
 
 
-@api_view(['POST'])
+@api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_activities(request):
     activities_list=[]
