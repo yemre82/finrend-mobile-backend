@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
 
 from users.models import CustomUser, Followers, OTPRegister
-from users.utils import generate_random_num, send_email
+from users.utils import generate_random_num, generate_sha256, send_email
 
 
 @api_view(['POST'])
@@ -94,13 +94,15 @@ def register_phone(request):
     password = request.data.get("password")
     if len(password) < 8:
         return response_400("Please send a valid Password (at least 8 digit)")
+    qr_code=generate_sha256(username,datetime.now())
     user_obj = CustomUser.objects.create(
         phone=phone,
         username=username,
         birthday=birthday,
         firstname=firstname,
         lastname=lastname,
-        gender=gender
+        gender=gender,
+        qr_code=qr_code
     )
     user_obj.set_password(password)
     otp = generate_random_num()

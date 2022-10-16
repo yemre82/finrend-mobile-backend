@@ -1,3 +1,4 @@
+import hashlib
 from django.core.mail import EmailMultiAlternatives
 from mobile import settings
 import random
@@ -28,3 +29,8 @@ def generate_random_num():
         index = math.floor(random.random()*10)
         random_str += str(digits[index])
     return random_str
+
+def generate_sha256(data, now):
+    string = str(data)+str(now)+"finrend_created_by_yemre"
+    hash = hashlib.sha256(f'{string}'.encode()).hexdigest()
+    return hash

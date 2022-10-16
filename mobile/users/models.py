@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
@@ -39,6 +40,14 @@ class CustomUser(AbstractBaseUser):
     username = models.CharField(blank=True, max_length=20, unique=True)
     birthday = models.DateField(blank=True, null=True)
     followers_count = models.IntegerField(blank=False, default=0)
+    following_count = models.IntegerField(blank=False, default=0)
+    location = models.CharField(
+        blank=True, null=True, default="", max_length=80)
+    website = models.CharField(
+        blank=True, null=True, default="", max_length=100)
+    biograpyh = models.CharField(
+        blank=True, null=True, default="", max_length=200)
+    qr_code= models.CharField(blank=False, null=False, max_length=100)
     created_at = models.DateTimeField(
         verbose_name="created at", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="update at", auto_now=True)
@@ -51,7 +60,7 @@ class CustomUser(AbstractBaseUser):
     REQUIRED_FIELDS = []
 
     def __str__(self):
-        return str(self.phone)
+        return str(self.username)
 
     def has_perm(self, perm, obj=None):
         return self.is_admin
