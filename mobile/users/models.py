@@ -40,13 +40,14 @@ class CustomUser(AbstractBaseUser):
     birthday = models.DateField(blank=True, null=True)
     followers_count = models.IntegerField(blank=False, default=0)
     following_count = models.IntegerField(blank=False, default=0)
+    finrenderer_count = models.IntegerField(blank=False, default=0)
     location = models.CharField(
         blank=True, null=True, default="", max_length=80)
     website = models.CharField(
         blank=True, null=True, default="", max_length=100)
     biograpyh = models.CharField(
         blank=True, null=True, default="", max_length=200)
-    qr_code= models.CharField(blank=False, null=False, max_length=100)
+    qr_code = models.CharField(blank=False, null=False, max_length=100)
     created_at = models.DateTimeField(
         verbose_name="created at", auto_now_add=True)
     updated_at = models.DateTimeField(verbose_name="update at", auto_now=True)
@@ -100,3 +101,26 @@ class Followers(models.Model):
 
     def __str__(self):
         return str(self.user)
+
+
+class Finrend(models.Model):
+    finrender_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    finrendered_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    is_finrend_accepted = models.BooleanField(default=None)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.finrender_user)
+
+
+class Portfolio(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    portfolio_coin_id=models.IntegerField(blank=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return str(self.user)
+
+

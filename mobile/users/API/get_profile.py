@@ -5,8 +5,9 @@ from mobile.otp import check_otp
 from mobile.responses import response_200, response_400, response_500
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
+from django.db.models import Q
 
-from users.models import CustomUser
+from users.models import CustomUser, Portfolio, Finrend
 
 
 @api_view(['GET'])
@@ -19,6 +20,47 @@ def get_profile(request,username_text):
     is_me=False
     if user_obj==request.user:
         is_me=True
+    can_finrend=False
+    portfolio_list=[]
+    if is_me:
+        portfolio_obj=Portfolio.objects.filter(user=user_obj)
+        for i in portfolio_obj:
+            return_obj={
+                "portfolio_id":i.id,
+                "user":i.user.username,
+                "portfolio_coin_id":i.portfolio_description,
+                "created_at":i.created_at,
+                "updated_at":i.updated_at,
+            }
+            portfolio_list.append(return_obj)
+    else:
+        try:
+            finrend_obj=Finrend.objects.get(Q(finrender_user=request.user,finrendered_user=user_obj,is_finrend_accepted=True)|Q(finrender_user=user_obj,finrendered_user=request.user,is_finrend_accepted=True))
+            if finrend_obj.finrender_user==user_obj:
+                portfolio_obj=Portfolio.objects.filter(user=user_obj)
+                for i in portfolio_obj:
+                    return_obj={
+                        "portfolio_id":i.id,
+                        "user":i.user.username,
+                        "portfolio_coin_id":i.portfolio_description,
+                        "created_at":i.created_at,
+                        "updated_at":i.updated_at,
+                    }
+                    portfolio_list.append(return_obj)
+            elif finrend_obj.finrendered_user==user_obj:
+                portfolio_obj=Portfolio.objects.filter(user=user_obj)
+                for i in portfolio_obj:
+                    return_obj={
+                        "portfolio_id":i.id,
+                        "user":i.user.username,
+                        "portfolio_coin_id":i.portfolio_description,
+                        "created_at":i.created_at,
+                        "updated_at":i.updated_at,
+                    }
+                    portfolio_list.append(return_obj)
+        except ObjectDoesNotExist as e:
+            portfolio_list=[]
+            can_finrend=True
     return_obj={
         "is_me":is_me,
         "phone":user_obj.phone,
@@ -34,6 +76,8 @@ def get_profile(request,username_text):
         "website":user_obj.website,
         "biograpyh":user_obj.biograpyh,
         "qr_code":user_obj.qr_code,
+        "portfolio":portfolio_list,
+        "can_finrend":can_finrend,
         "created_at":user_obj.created_at,
         "updated_at":user_obj.updated_at
     }
