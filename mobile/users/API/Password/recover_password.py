@@ -18,7 +18,7 @@ def recover_password_email(request):
         return response_400("There is no such Email")
     otp = request.data.get("otp")
     try:
-        otp_forgot_obj = OTPForgotPassword.objects.get(user=user_obj, otp=otp)
+        otp_forgot_obj = OTPForgotPassword.objects.get(user=user_obj, otp=otp,is_verified=False)
     except ObjectDoesNotExist as e:
         return response_400("There is no such OTP")
     otp_forgot_obj.is_verified = True

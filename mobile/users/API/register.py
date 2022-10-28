@@ -19,52 +19,53 @@ def register_email(request):
     email = request.data.get("email")
     try:
         CustomUser.objects.get(email=email)
-    except ObjectDoesNotExist as e:
         return response_400("Email is already exist")
-    username = request.data.get("username")
-    try:
-        CustomUser.objects.get(username=username)
     except ObjectDoesNotExist as e:
-        return response_400("Username is already exist")
-    birthday = datetime.strptime(request.data.get("birthday"), "%Y-%m-%d")
-    firstname = request.data.get("firstname")
-    if len(firstname) == 0:
-        return response_400("Please send a valid firstname")
-    lastname = request.data.get("lastname")
-    if len(lastname) == 0:
-        return response_400("Please send a valid lastname")
-    gender = request.data.get("gender")
-    if len(gender) == 0:
-        return response_400("Please send a valid gender")
-    password = request.data.get("password")
-    if len(password) < 8:
-        return response_400("Please send a valid Password (at least 8 digit)")
-    qr_code=generate_sha256(username,datetime.now())
-    user_obj = CustomUser.objects.create(
-        email=email,
-        username=username,
-        birthday=birthday,
-        firstname=firstname,
-        lastname=lastname,
-        gender=gender,
-        qr_code=qr_code
-    )
-    user_obj.set_password(password)
-    user_obj.save()
-    otp = generate_random_num()
-    description_obj = "email verification"
-    OTPRegister.objects.create(
-        user=user_obj,
-        otp=str(otp),
-        description=description_obj
-    )
-    send_email(user_obj.email, otp,
-               "Email Verification of Finrend")
-    Followers.objects.create(
-        follower_user=user_obj,
-        followed_user=user_obj
-    )
-    return response_200(None)
+        
+        username = request.data.get("username")
+        try:
+            CustomUser.objects.get(username=username)
+            return response_400("Username is already exist")
+        except ObjectDoesNotExist as e:
+            birthday = datetime.strptime(request.data.get("birthday"), "%Y-%m-%d")
+            firstname = request.data.get("firstname")
+            if len(firstname) == 0:
+                return response_400("Please send a valid firstname")
+            lastname = request.data.get("lastname")
+            if len(lastname) == 0:
+                return response_400("Please send a valid lastname")
+            gender = request.data.get("gender")
+            if len(gender) == 0:
+                return response_400("Please send a valid gender")
+            password = request.data.get("password")
+            if len(password) < 8:
+                return response_400("Please send a valid Password (at least 8 digit)")
+            qr_code=generate_sha256(username,datetime.now())
+            user_obj = CustomUser.objects.create(
+                email=email,
+                username=username,
+                birthday=birthday,
+                firstname=firstname,
+                lastname=lastname,
+                gender=gender,
+                qr_code=qr_code
+            )
+            user_obj.set_password(password)
+            user_obj.save()
+            otp = generate_random_num()
+            description_obj = "email verification"
+            OTPRegister.objects.create(
+                user=user_obj,
+                otp=str(otp),
+                description=description_obj
+            )
+            send_email(user_obj.email, otp,
+                    "Email Verification of Finrend")
+            Followers.objects.create(
+                follower_user=user_obj,
+                followed_user=user_obj
+            )
+            return response_200(None)
 
 
 @api_view(['POST'])
@@ -76,47 +77,48 @@ def register_phone(request):
     phone = request.data.get("phone")
     try:
         CustomUser.objects.get(phone=phone)
-    except ObjectDoesNotExist as e:
         return response_400("Phone is already exist")
-    username = request.data.get("username")
-    try:
-        CustomUser.objects.get(username=username)
     except ObjectDoesNotExist as e:
-        return response_400("Username is already exist")
-    birthday = datetime.strptime(request.data.get("birthday"), "%Y-%m-%d")
-    firstname = request.data.get("firstname")
-    if len(firstname) == 0:
-        return response_400("Please send a valid firstname")
-    lastname = request.data.get("lastname")
-    if len(lastname) == 0:
-        return response_400("Please send a valid lastname")
-    gender = request.data.get("gender")
-    if len(gender) == 0:
-        return response_400("Please send a valid gender")
-    password = request.data.get("password")
-    if len(password) < 8:
-        return response_400("Please send a valid Password (at least 8 digit)")
-    qr_code=generate_sha256(username,datetime.now())
-    user_obj = CustomUser.objects.create(
-        phone=phone,
-        username=username,
-        birthday=birthday,
-        firstname=firstname,
-        lastname=lastname,
-        gender=gender,
-        qr_code=qr_code
-    )
-    user_obj.set_password(password)
-    otp = generate_random_num()
-    description_obj = "phone verification"
-    OTPRegister.objects.create(
-        user=user_obj,
-        otp=str(otp),
-        description=description_obj
-    )
-    # sms gönder
-    Followers.objects.create(
-        follower_user=user_obj,
-        followed_user=user_obj
-    )
-    return response_200(None)
+        username = request.data.get("username")
+        try:
+            CustomUser.objects.get(username=username)
+            return response_400("Username is already exist")
+        except ObjectDoesNotExist as e:
+            birthday = datetime.strptime(request.data.get("birthday"), "%Y-%m-%d")
+            firstname = request.data.get("firstname")
+            if len(firstname) == 0:
+                return response_400("Please send a valid firstname")
+            lastname = request.data.get("lastname")
+            if len(lastname) == 0:
+                return response_400("Please send a valid lastname")
+            gender = request.data.get("gender")
+            if len(gender) == 0:
+                return response_400("Please send a valid gender")
+            password = request.data.get("password")
+            if len(password) < 8:
+                return response_400("Please send a valid Password (at least 8 digit)")
+            qr_code=generate_sha256(username,datetime.now())
+            user_obj = CustomUser.objects.create(
+                phone=phone,
+                username=username,
+                birthday=birthday,
+                firstname=firstname,
+                lastname=lastname,
+                gender=gender,
+                qr_code=qr_code
+            )
+            user_obj.set_password(password)
+            user_obj.save()
+            otp = generate_random_num()
+            description_obj = "phone verification"
+            OTPRegister.objects.create(
+                user=user_obj,
+                otp=str(otp),
+                description=description_obj
+            )
+            # sms gönder
+            Followers.objects.create(
+                follower_user=user_obj,
+                followed_user=user_obj
+            )
+            return response_200(None)

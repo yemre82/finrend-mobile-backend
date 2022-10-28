@@ -12,6 +12,6 @@ def check_phone(request):
     phone = request.data.get("phone")
     try:
         CustomUser.objects.get(phone=phone)
-    except ObjectDoesNotExist as e:
         return response_400("Phone is already exist")
-    return response_200(None)
+    except ObjectDoesNotExist as e:
+        return response_200(None)

@@ -9,14 +9,16 @@ from rest_framework.authtoken.models import Token
 from users.models import CustomUser, OTPRegister
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 @permission_classes([AllowAny])
-def verify_email(request, email_text, otp_text):
+def verify_email(request):
+    email_text= request.data.get("email_text")
+    otp_text= request.data.get("otp_text")
     try:
         user_obj = CustomUser.objects.get(email=email_text)
     except ObjectDoesNotExist as e:
         return response_400("There is no such user")
-    otp_obj = OTPRegister.objects.filter(user=user_obj, otp=otp_text)
+    otp_obj = OTPRegister.objects.filter(user=user_obj, otp=otp_text,is_verified=False)
     if len(otp_obj) == 0:
         return response_400("There is no such otp")
     for i in otp_obj:
@@ -38,7 +40,7 @@ def verify_phone(request, phone_text, otp_text):
         user_obj = CustomUser.objects.get(phone=phone_text)
     except ObjectDoesNotExist as e:
         return response_400("There is no such user")
-    otp_obj = OTPRegister.objects.filter(user=user_obj, otp=otp_text)
+    otp_obj = OTPRegister.objects.filter(user=user_obj, otp=otp_text,is_verified=False)
     if len(otp_obj) == 0:
         return response_400("There is no such otp")
     for i in otp_obj:

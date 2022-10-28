@@ -19,6 +19,6 @@ from django.urls import path,include
 urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/users/",include("users.urls")),
-    path("api/messages/",include("messages.urls")),
+    path("api/messages/",include("messagess.urls")),
     path("api/menus/",include("menus.urls")),
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

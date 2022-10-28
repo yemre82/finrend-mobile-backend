@@ -22,6 +22,7 @@ def send_email_forgot_password(to_email, otp, subject):
     msg.attach_alternative(html_content, "text/html")
     msg.send()
 
+
 def generate_random_num():
     random_str = ""
     digits = [i for i in range(0, 10)]

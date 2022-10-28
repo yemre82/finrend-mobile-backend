@@ -22,7 +22,8 @@ def send_a_finrend(request):
         return response_400("You can't finrend yourself")
     try:
         Finrend.objects.get(Q(finrender_user=request.user, finrendered_user=user_obj, is_finrend_accepted=True) | Q(
-            finrender_user=user_obj, finrendered_user=request.user, is_finrend_accepted=True))
+            finrender_user=user_obj, finrendered_user=request.user, is_finrend_accepted=True) |Q(finrender_user=request.user, finrendered_user=user_obj, is_finrend_accepted=None) | Q(
+            finrender_user=user_obj, finrendered_user=request.user, is_finrend_accepted=None))
         return response_400("This user already finrend you")
     except ObjectDoesNotExist as e:
         Finrend.objects.create(

@@ -7,7 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
 
 from users.models import CustomUser
-from messages.models import Message
+from messagess.models import Message
 
 
 @api_view(['POST'])

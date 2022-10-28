@@ -20,7 +20,15 @@ def login(request):
     try:
         user_obj = CustomUser.objects.get(username=username)
     except ObjectDoesNotExist as e:
-        return response_400("There is no such User")
+        try:
+            user_obj = CustomUser.objects.get(email=username)
+        except ObjectDoesNotExist as e:
+            try:
+                user_obj = CustomUser.objects.get(phone=username)
+            except ObjectDoesNotExist as e:
+                return response_400("There is no such User")
+    if not user_obj.is_active:
+        return response_400("Please verify your account")
     if not user_obj.check_password(password):
         return response_400("Password is not True")
     token, _ = Token.objects.get_or_create(user=user_obj)

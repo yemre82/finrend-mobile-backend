@@ -7,14 +7,14 @@ from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.authtoken.models import Token
 from django.db.models import Q
 
-from users.models import CustomUser, Portfolio, Finrend
+from users.models import CustomUser, Followers, Portfolio, Finrend
 
 
 @api_view(['GET'])
 @permission_classes([IsAuthenticated])
 def get_profile(request,username_text):
     try:
-        user_obj=CustomUser.objects.get(username=username_text)
+        user_obj=CustomUser.objects.get(username=username_text,is_active=True)
     except ObjectDoesNotExist as e:
         return response_400("There is no such user")
     is_me=False
@@ -61,6 +61,11 @@ def get_profile(request,username_text):
         except ObjectDoesNotExist as e:
             portfolio_list=[]
             can_finrend=True
+    try:
+        Followers.objects.get(follower_user=request.user,followed_user=user_obj)
+        is_following=True
+    except ObjectDoesNotExist as e:
+        is_following=False
     return_obj={
         "is_me":is_me,
         "phone":user_obj.phone,
@@ -78,6 +83,7 @@ def get_profile(request,username_text):
         "qr_code":user_obj.qr_code,
         "portfolio":portfolio_list,
         "can_finrend":can_finrend,
+        "is_following":is_following,
         "created_at":user_obj.created_at,
         "updated_at":user_obj.updated_at
     }

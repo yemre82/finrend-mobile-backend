@@ -12,6 +12,6 @@ def check_email(request):
     email = request.data.get("email")
     try:
         CustomUser.objects.get(email=email)
-    except ObjectDoesNotExist as e:
         return response_400("Email is already exist")
-    return response_200(None)
+    except ObjectDoesNotExist as e:
+        return response_200(None)

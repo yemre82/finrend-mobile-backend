@@ -94,8 +94,8 @@ class OTPForgotPassword(models.Model):
 
 
 class Followers(models.Model):
-    follower_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    followed_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    follower_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="follower_user")
+    followed_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="followed_user")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -104,8 +104,8 @@ class Followers(models.Model):
 
 
 class Finrend(models.Model):
-    finrender_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    finrendered_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    finrender_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="finrender_user")
+    finrendered_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE,related_name="finrendered_user")
     is_finrend_accepted = models.BooleanField(default=None)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

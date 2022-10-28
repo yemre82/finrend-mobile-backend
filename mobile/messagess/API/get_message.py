@@ -8,7 +8,7 @@ from rest_framework.authtoken.models import Token
 from django.db.models import Q
 
 from users.models import CustomUser
-from messages.models import Message
+from messagess.models import Message
 
 @api_view(['POST'])
 @permission_classes([IsAuthenticated])

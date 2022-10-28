@@ -12,6 +12,6 @@ def check_username(request):
     username = request.data.get("username")
     try:
         CustomUser.objects.get(username=username)
-    except ObjectDoesNotExist as e:
         return response_400("Username is already exist")
-    return response_200(None)
+    except ObjectDoesNotExist as e:
+        return response_200(None)
